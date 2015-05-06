@@ -1,0 +1,5 @@
+l*sin(x) + k*sin(x+y)+m*sin(x+2*y)=a, l*cos(x) + k*cos(x+y)+m*cos(x+2*y)=b
+
+l*sin(x) + k*sin(x+y)+m*sin(x+z)=a, l*cos(x) + k*cos(x+y)+m*cos(x+z)=b solve for x,y,z
+
+l*sin(x) + k*sin(y)+m*sin(z)=a, l*cos(x) + k*cos(y)+m*cos(z)=b solve for x,y,z
