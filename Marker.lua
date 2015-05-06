@@ -26,6 +26,21 @@ function Marker:update(dt)
 	self.y = self.y + global.fourth.length * math.cos(global.first.a + global.second.a + global.third.a + global.fourth.a)
 end
 
+function Marker:getPositionForAngles(a1, a2, a3)
+	local x, y
+	x = center_x
+	y = center_y
+	x = x + global.first.length  * math.sin(0)
+	y = y + global.first.length  * math.cos(0)
+	x = x + global.second.length * math.sin(0 + a1)
+	y = y + global.second.length * math.cos(0 + a1)
+	x = x + global.third.length  * math.sin(0 + a1 + a2)
+	y = y + global.third.length  * math.cos(0 + a1 + a2)
+	x = x + global.fourth.length * math.sin(0 + a1 + a2 + a3)
+	y = y + global.fourth.length * math.cos(0 + a1 + a2 + a3)
+	return x, y
+end
+
 function Marker:draw(camera)
 	love.graphics.draw(Marker.IMAGE, self.x, self.y, 0, 1, 1, 10, 10)
 end
