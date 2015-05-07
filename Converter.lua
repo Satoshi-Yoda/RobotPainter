@@ -1,9 +1,11 @@
 Converter = {}
 Converter.__index = Converter
 
-Converter.BASE_X = 200
+Converter.BASE_X = 100
 Converter.BASE_Y = 100
 Converter.BASE_ANGLE = 0 -- должен быть 0, xD
+Converter.MAX_ANGLE = 2 * math.pi / 3
+Converter.MIN_ANGLE = 0
 
 Converter.ELEMENT_0_LENGTH = 128
 Converter.ELEMENT_1_LENGTH = 218
@@ -13,6 +15,8 @@ Converter.ELEMENT_3_LENGTH = 340
 function Converter.create()
 	local new = {}
 	setmetatable(new, Converter)
+
+	new.a = {}
 
 	return new
 end
@@ -77,20 +81,31 @@ function Converter:getPositionForAngles(a0, a1, a2, a3, count)
 end
 
 function Converter:convertRelative(x_in, y_in)
-	local a0 = global.zero.a
-	local a1 = global.first.a
-	local a2 = global.second.a
-	local a3 = global.third.a
+	self.a[0] = global.zero.a
+	self.a[1] = global.first.a
+	self.a[2] = global.second.a
+	self.a[3] = global.third.a
 
-	local x_old, y_old = self:getPositionForAngles(a0, a1, a2, a3)
-	local x_base_3, y_base_3 = self:getPositionForAngles(a0, a1, a2, a3, 3)
+	for i = 1, 100 do
+		self:turn(x_in, y_in, 3)
+		self:turn(x_in, y_in, 2)
+		self:turn(x_in, y_in, 1)
+		if self.a[3]*self.a[2] < 0 then
+			self.a[2] = - self.a[2]
+		end
+	end
 
-	-- тут меняем a3
+	return self.a[0], self.a[1], self.a[2], self.a[3]
+end
 
-	local ox = x_old - x_base_3
-	local oy = y_old - y_base_3
-	local nx = x_in - x_base_3
-	local ny = y_in - y_base_3
+function Converter:turn(x_in, y_in, index)
+	local x_old, y_old = self:getPositionForAngles(self.a[0], self.a[1], self.a[2], self.a[3])
+	local x_base, y_base = self:getPositionForAngles(self.a[0], self.a[1], self.a[2], self.a[3], index)
+
+	local ox = x_old - x_base
+	local oy = y_old - y_base
+	local nx = x_in - x_base
+	local ny = y_in - y_base
 
 	local cos_angle = (ox * nx + oy * ny)/(math.sqrt((ox*ox+oy*oy)*(nx*nx+ny*ny)))
 	if cos_angle > 1 then
@@ -107,29 +122,11 @@ function Converter:convertRelative(x_in, y_in)
 		angle =  math.abs(angle)
 	end
 
-	-- print(angle)
+	self.a[index] = self.a[index] + angle
 
-	return a0, a1, a2, a3 + angle
+	if self.a[index] > Converter.MAX_ANGLE then
+		self.a[index] = Converter.MAX_ANGLE
+	elseif self.a[index] < Converter.MIN_ANGLE then
+		self.a[index] = -Converter.MIN_ANGLE
+	end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
