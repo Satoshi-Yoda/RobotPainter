@@ -92,13 +92,22 @@ function Converter:convertRelative(x_in, y_in)
 	local nx = x_in - x_base_3
 	local ny = y_in - y_base_3
 
-	local angle = math.acos((ox * nx + oy * ny)/(math.sqrt((ox*ox+oy*oy)*(nx*nx+ny*ny))))
+	local cos_angle = (ox * nx + oy * ny)/(math.sqrt((ox*ox+oy*oy)*(nx*nx+ny*ny)))
+	if cos_angle > 1 then
+		cos_angle = 1
+	end
+	if cos_angle < -1 then
+		cos_angle = -1
+	end
+	local angle = math.acos(cos_angle)
 	local sign = ox*ny - oy*nx
 	if sign > 0 then
 		angle = -math.abs(angle)
 	else 
 		angle =  math.abs(angle)
 	end
+
+	-- print(angle)
 
 	return a0, a1, a2, a3 + angle
 end
