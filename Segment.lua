@@ -54,7 +54,7 @@ function Segment:update(dt)
 	if self.number == 0 then
 		
 	else
-		self.a = self.a + 0.5 * dt
+		-- self.a = self.a + 0.5 * dt
 	end
 	
 	-- self.x, self.y = love.mouse.getPosition()
