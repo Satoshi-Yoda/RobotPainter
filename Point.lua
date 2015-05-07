@@ -1,5 +1,3 @@
-require "Converter"
-
 Point = {}
 Point.__index = Point
 
@@ -20,7 +18,5 @@ function Point:update(dt)
 end
 
 function Point:draw(camera)
-	-- love.graphics.setColor(255, 255, 255, 10)
 	love.graphics.draw(Point.IMAGE, self.x, self.y, 0, 1, 1, Point.IMAGE:getWidth()/2, Point.IMAGE:getHeight()/2)
-	-- love.graphics.setColor(255, 255, 255, 255)
 end

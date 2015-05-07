@@ -2,6 +2,7 @@ require "Segment"
 require "Marker"
 require "Converter"
 require "Point"
+require "Rect"
 
 global = {
 	zero = {},
@@ -10,7 +11,8 @@ global = {
 	third = {},
 	marker = {},
 	converter = {},
-	area = {}
+	area = {},
+	rect = {}
 }
 
 function love.load()
@@ -25,6 +27,9 @@ function love.load()
 	global.third  = Segment.create(3, global.second)
 	global.marker = Marker.create()
 	global.converter = Converter.create()
+
+	-- 566 на 800 это A4
+	global.rect = Rect.create(Converter.BASE_X + 200, Converter.BASE_Y - 200, 566*0.8, 800*0.8)
 end
 
 function love.update(dt)
@@ -44,10 +49,12 @@ function love.update(dt)
 end
 
 function love.draw()
+	global.rect:draw()
+
 	for key,value in pairs(global.area) do
     	value:draw()
 	end
-
+	
 	global.zero:draw()
 	global.second:draw()
 	global.first:draw()
