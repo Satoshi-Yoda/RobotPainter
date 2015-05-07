@@ -20,5 +20,5 @@ function Marker:update(dt)
 end
 
 function Marker:draw(camera)
-	love.graphics.draw(Marker.IMAGE, self.x, self.y, 0, 1, 1, 10, 10)
+	love.graphics.draw(Marker.IMAGE, self.x, self.y, 0, 1, 1, Marker.IMAGE:getWidth()/2, Marker.IMAGE:getHeight()/2)
 end

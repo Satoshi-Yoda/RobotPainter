@@ -14,7 +14,7 @@ global = {
 function love.load()
 	love.window.setMode(1536, 1024, {resizable=false, vsync=true})
 	love.graphics.setLineWidth(1)
-	love.graphics.setBackgroundColor(200, 150, 100)
+	love.graphics.setBackgroundColor(150, 170, 170)
 	math.randomseed(os.time())
 
 	global.zero   = Segment.create(0)
@@ -33,7 +33,7 @@ function love.update(dt)
 	global.marker:update(dt)
 
 	local a, b = love.mouse.getPosition()
-	global.zero.a, global.first.a, global.second.a, global.third.a = global.converter:convertAbsolute2(a, b)
+	global.zero.a, global.first.a, global.second.a, global.third.a = global.converter:convertRelative(a, b)
 end
 
 function love.draw()
