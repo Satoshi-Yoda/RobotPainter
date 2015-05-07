@@ -1,3 +1,5 @@
+require "Converter"
+
 Segment = {}
 Segment.__index = Segment
 
@@ -14,13 +16,13 @@ function Segment.create(number, base)
 	new.a = 0
 
 	if number == 0 then
-		new.length = 128
+		new.length = Converter.ELEMENT_0_LENGTH
 	elseif number == 1 then
-		new.length = 218
+		new.length = Converter.ELEMENT_1_LENGTH
 	elseif number == 2 then
-		new.length = 223
+		new.length = Converter.ELEMENT_2_LENGTH
 	elseif number == 3 then
-		new.length = 480
+		new.length = Converter.ELEMENT_3_LENGTH
 	end
 
 	new.image = love.graphics.newImage("_pic/" .. number .. ".png")
@@ -45,19 +47,13 @@ function Segment:getBasePosition()
 		y = y + self.base.length * math.cos(a)
 		return x, y, a + self.a
 	else
-		local x, y, a = center_x, center_y, self.a
+		local x, y, a = Converter.BASE_X, Converter.BASE_Y, self.a
 		return x, y, a
 	end
 end
 
 function Segment:update(dt)
-	if self.number == 0 then
-		
-	else
-		-- self.a = self.a + 0.5 * dt
-	end
-	
-	-- self.x, self.y = love.mouse.getPosition()
+
 end
 
 function Segment:draw(camera)
