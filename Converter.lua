@@ -3,12 +3,12 @@ Converter.__index = Converter
 
 Converter.BASE_X = 200
 Converter.BASE_Y = 100
-Converter.BASE_ANGLE = 0
+Converter.BASE_ANGLE = 0 -- должен быть 0, xD
 
 Converter.ELEMENT_0_LENGTH = 128
 Converter.ELEMENT_1_LENGTH = 218
 Converter.ELEMENT_2_LENGTH = 223
-Converter.ELEMENT_3_LENGTH = 360
+Converter.ELEMENT_3_LENGTH = 480
 
 function Converter.create()
 	local new = {}
