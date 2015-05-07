@@ -2,10 +2,12 @@ Converter = {}
 Converter.__index = Converter
 
 Converter.BASE_X = 100
-Converter.BASE_Y = 100
+Converter.BASE_Y = 400
 Converter.BASE_ANGLE = 0 -- должен быть 0, xD
 Converter.MAX_ANGLE = 2 * math.pi / 3
-Converter.MIN_ANGLE = 0
+Converter.MIN_ANGLE = 0.05
+Converter.MAX_ANGLE_0 = 2 * math.pi / 3 - math.pi / 6
+Converter.MIN_ANGLE_0 = -math.pi / 6
 
 Converter.ELEMENT_0_LENGTH = 128
 Converter.ELEMENT_1_LENGTH = 218
@@ -90,6 +92,8 @@ function Converter:convertRelative(x_in, y_in)
 		self:turn(x_in, y_in, 3)
 		self:turn(x_in, y_in, 2)
 		self:turn(x_in, y_in, 1)
+
+		-- это может и не нужно при минимальном угле в 0 градусов
 		if self.a[3]*self.a[2] < 0 then
 			self.a[2] = - self.a[2]
 		end
@@ -124,9 +128,17 @@ function Converter:turn(x_in, y_in, index)
 
 	self.a[index] = self.a[index] + angle
 
-	if self.a[index] > Converter.MAX_ANGLE then
-		self.a[index] = Converter.MAX_ANGLE
-	elseif self.a[index] < Converter.MIN_ANGLE then
-		self.a[index] = -Converter.MIN_ANGLE
+	if index == 1 then
+		if self.a[index] > Converter.MAX_ANGLE_0 then
+			self.a[index] = Converter.MAX_ANGLE_0
+		elseif self.a[index] < Converter.MIN_ANGLE_0 then
+			self.a[index] = Converter.MIN_ANGLE_0
+		end
+	else
+		if self.a[index] > Converter.MAX_ANGLE then
+			self.a[index] = Converter.MAX_ANGLE
+		elseif self.a[index] < Converter.MIN_ANGLE then
+			self.a[index] = Converter.MIN_ANGLE
+		end
 	end
 end
