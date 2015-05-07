@@ -8,7 +8,7 @@ Converter.BASE_ANGLE = 0 -- должен быть 0, xD
 Converter.ELEMENT_0_LENGTH = 128
 Converter.ELEMENT_1_LENGTH = 218
 Converter.ELEMENT_2_LENGTH = 223
-Converter.ELEMENT_3_LENGTH = 480
+Converter.ELEMENT_3_LENGTH = 400
 
 function Converter.create()
 	local new = {}
@@ -17,7 +17,7 @@ function Converter.create()
 	return new
 end
 
-function Converter:convert1(x_in, y_in)
+function Converter:convertAbsolute1(x_in, y_in)
 	a = x_in - Converter.BASE_X - Converter.ELEMENT_0_LENGTH * math.sin(Converter.BASE_ANGLE)
 	b = y_in - Converter.BASE_Y - Converter.ELEMENT_0_LENGTH * math.cos(Converter.BASE_ANGLE)
 
@@ -35,7 +35,7 @@ function Converter:convert1(x_in, y_in)
 	return angle0, angle1, angle2, angle3
 end
 
-function Converter:convert2(x_in, y_in)
+function Converter:convertAbsolute2(x_in, y_in)
 	a = x_in - Converter.BASE_X - Converter.ELEMENT_0_LENGTH * math.sin(Converter.BASE_ANGLE)
 	b = y_in - Converter.BASE_Y - Converter.ELEMENT_0_LENGTH * math.cos(Converter.BASE_ANGLE)
 
@@ -51,4 +51,26 @@ function Converter:convert2(x_in, y_in)
 	local angle3 = x - y
 	
 	return angle0, angle1, angle2, angle3
+end
+
+function Converter:convertRelative(x_in, y_in)
+	local a0 = global.zero.a
+	local a1 = global.first.a
+	local a2 = global.second.a
+	local a3 = global.third.a
+end
+
+function Converter:getPositionForAngles(a0, a1, a2, a3)
+	local x, y
+	x = Converter.BASE_X
+	y = Converter.BASE_Y
+	x = x + Converter.ELEMENT_0_LENGTH * math.sin(a0)
+	y = y + Converter.ELEMENT_0_LENGTH * math.cos(a0)
+	x = x + Converter.ELEMENT_1_LENGTH * math.sin(a0 + a1)
+	y = y + Converter.ELEMENT_1_LENGTH * math.cos(a0 + a1)
+	x = x + Converter.ELEMENT_2_LENGTH * math.sin(a0 + a1 + a2)
+	y = y + Converter.ELEMENT_2_LENGTH * math.cos(a0 + a1 + a2)
+	x = x + Converter.ELEMENT_3_LENGTH * math.sin(a0 + a1 + a2 + a3)
+	y = y + Converter.ELEMENT_3_LENGTH * math.cos(a0 + a1 + a2 + a3)
+	return x, y
 end

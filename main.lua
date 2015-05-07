@@ -33,7 +33,7 @@ function love.update(dt)
 	global.marker:update(dt)
 
 	local a, b = love.mouse.getPosition()
-	global.zero.a, global.first.a, global.second.a, global.third.a = global.converter:convert2(a, b)
+	global.zero.a, global.first.a, global.second.a, global.third.a = global.converter:convertAbsolute2(a, b)
 end
 
 function love.draw()
