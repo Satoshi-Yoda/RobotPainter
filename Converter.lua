@@ -58,19 +58,29 @@ function Converter:convertRelative(x_in, y_in)
 	local a1 = global.first.a
 	local a2 = global.second.a
 	local a3 = global.third.a
+
+	local x_old, y_old = self:getPositionForAngles(a0, a1, a2, a3)
 end
 
-function Converter:getPositionForAngles(a0, a1, a2, a3)
+function Converter:getPositionForAngles(a0, a1, a2, a3, count)
 	local x, y
 	x = Converter.BASE_X
 	y = Converter.BASE_Y
-	x = x + Converter.ELEMENT_0_LENGTH * math.sin(a0)
-	y = y + Converter.ELEMENT_0_LENGTH * math.cos(a0)
-	x = x + Converter.ELEMENT_1_LENGTH * math.sin(a0 + a1)
-	y = y + Converter.ELEMENT_1_LENGTH * math.cos(a0 + a1)
-	x = x + Converter.ELEMENT_2_LENGTH * math.sin(a0 + a1 + a2)
-	y = y + Converter.ELEMENT_2_LENGTH * math.cos(a0 + a1 + a2)
-	x = x + Converter.ELEMENT_3_LENGTH * math.sin(a0 + a1 + a2 + a3)
-	y = y + Converter.ELEMENT_3_LENGTH * math.cos(a0 + a1 + a2 + a3)
+	if count == nil or count >=1 then
+		x = x + Converter.ELEMENT_0_LENGTH * math.sin(a0)
+		y = y + Converter.ELEMENT_0_LENGTH * math.cos(a0)
+		if count == nil or count >= 2 then
+			x = x + Converter.ELEMENT_1_LENGTH * math.sin(a0 + a1)
+			y = y + Converter.ELEMENT_1_LENGTH * math.cos(a0 + a1)
+			if count == nil or count >= 3 then
+				x = x + Converter.ELEMENT_2_LENGTH * math.sin(a0 + a1 + a2)
+				y = y + Converter.ELEMENT_2_LENGTH * math.cos(a0 + a1 + a2)
+				if count == nil or count >= 4 then
+					x = x + Converter.ELEMENT_3_LENGTH * math.sin(a0 + a1 + a2 + a3)
+					y = y + Converter.ELEMENT_3_LENGTH * math.cos(a0 + a1 + a2 + a3)
+				end
+			end
+		end
+	end
 	return x, y
 end

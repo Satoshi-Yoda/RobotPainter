@@ -16,7 +16,7 @@ function Marker.create()
 end
 
 function Marker:update(dt)
-	self.x, self.y = Converter:getPositionForAngles(global.zero.a, global.first.a, global.second.a, global.third.a)
+	self.x, self.y = Converter:getPositionForAngles(global.zero.a, global.first.a, global.second.a, global.third.a, 4)
 end
 
 function Marker:draw(camera)
