@@ -4,9 +4,9 @@ Converter.__index = Converter
 Converter.BASE_X = 100
 Converter.BASE_Y = 400
 Converter.BASE_ANGLE = 0 -- должен быть 0, xD
-Converter.MAX_ANGLE = 2 * math.pi / 3
+Converter.MAX_ANGLE = 1 * math.pi / 2
 Converter.MIN_ANGLE = 0.05
-Converter.MAX_ANGLE_0 = 2 * math.pi / 3 - math.pi / 4
+Converter.MAX_ANGLE_0 = math.pi / 3
 Converter.MIN_ANGLE_0 = -math.pi / 4
 
 Converter.ELEMENT_0_LENGTH = 128
