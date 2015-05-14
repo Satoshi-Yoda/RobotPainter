@@ -2,7 +2,7 @@ Converter = {}
 Converter.__index = Converter
 
 Converter.BASE_X = 100
-Converter.BASE_Y = 400
+Converter.BASE_Y = 300
 Converter.BASE_ANGLE = 0 -- должен быть 0, xD
 Converter.MAX_ANGLE = 1 * math.pi / 2
 Converter.MIN_ANGLE = 0.05

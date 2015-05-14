@@ -30,7 +30,7 @@ function love.load()
 	global.converter = Converter.create()
 
 	-- 566 на 800 это A4
-	global.rect = Rect.create(Converter.BASE_X + 220, Converter.BASE_Y - 130, 566*0.85, 800*0.85)
+	global.rect = Rect.create(Converter.BASE_X + 258, Converter.BASE_Y - 50, 566*0.72, 800*0.72)
 end
 
 function love.update(dt)
