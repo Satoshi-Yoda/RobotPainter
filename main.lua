@@ -4,6 +4,7 @@ require "Converter"
 require "Point"
 require "Rect"
 -- require "luars232"
+require "ArduinoConnection"
 
 global = {
 	zero = {},
@@ -13,7 +14,8 @@ global = {
 	marker = {},
 	converter = {},
 	area = {},
-	rect = {}
+	rect = {},
+	arduinoConnection = {}
 }
 
 function love.load()
@@ -31,6 +33,9 @@ function love.load()
 
 	-- 566 на 800 это A4
 	global.rect = Rect.create(Converter.BASE_X + 258, Converter.BASE_Y - 50, 566*0.72, 800*0.72)
+
+	global.arduinoConnection = ArduinoConnection.create()
+	global.arduinoConnection:init()
 end
 
 function love.update(dt)
@@ -43,9 +48,18 @@ function love.update(dt)
 	local a, b = love.mouse.getPosition()
 	global.zero.a, global.first.a, global.second.a, global.third.a = global.converter:convertRelative(a, b)
 
+	love.window.setTitle(global.arduinoConnection:getAnglesString())
+	global.arduinoConnection:setAngles()
+
 	if love.mouse.isDown("l") then
 		local point = Point.create(global.marker.x, global.marker.y)
 		table.insert(global.area, point)
+
+		-- local port = assert(io.open("COM2", "w"))
+		-- local port = assert(io.open("out.txt", "w"))
+		-- port:write("M00")
+		-- port:flush()
+		-- port:close()
 
 		-- where is baud rate?!
 		-- local wserial = assert(io.open("/dev/tty.usbmodem1411", "w"))
@@ -54,6 +68,10 @@ function love.update(dt)
 		-- wserial:write("G1 X10\n111")
 		-- wserial:flush()
 		-- wserial:close()
+
+		global.arduinoConnection.pen = true
+	else
+		global.arduinoConnection.pen = false
 	end
 end
 
