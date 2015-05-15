@@ -14,34 +14,98 @@ function ArduinoConnection.create()
 end
 
 function ArduinoConnection:init()
-	self:divide(10, -2, 10, 0, 92, 90)
+	self:divide(7, 0, 0, 15, 72, 75)
 end
 
--- |x1 - x0| наибольший, 
 function ArduinoConnection:divide(x0, x1, y0, y1, z0, z1)
-	local delta_x = math.abs(x1 - x0)
-	local delta_y = math.abs(y1 - y0)
-	local delta_z = math.abs(z1 - z0)
-	local sign_x = utils.math.sign(x1 - x0)
-	local sign_y = utils.math.sign(y1 - y0)
-	local sign_z = utils.math.sign(z1 - z0)
+	local w0
+	local w1
+
+	local delta_x
+	local delta_y
+	local delta_z
+	local delta_w
+
+	local sign_x
+	local sign_y
+	local sign_z
+	local sign_w
+
+	if x1 > x0 then
+		delta_x = x1 - x0
+		sign_x = 1
+	else
+		delta_x = x0 - x1
+		sign_x = -1
+	end
+
+	if y1 > y0 then
+		delta_y = y1 - y0
+		sign_y = 1
+	else
+		delta_y = y0 - y1
+		sign_y = -1
+	end
+
+	if z1 > z0 then
+		delta_z = z1 - z0
+		sign_z = 1
+	else
+		delta_z = z0 - z1
+		sign_z = -1
+	end
+
+	if delta_x >= delta_y and delta_x > delta_z then
+		delta_w = delta_x
+		w0 = x0
+		w1 = x1
+		sign_w = sign_x
+
+	elseif delta_y >= delta_x and delta_y > delta_z then
+		delta_w = delta_y
+		w0 = y0
+		w1 = y1
+		sign_w = sign_y
+
+	else
+		delta_w = delta_z
+		w0 = z0
+		w1 = z1
+		sign_w = sign_z
+	end
+
+	local err_x = 0
 	local err_y = 0
 	local err_z = 0
+
+	local delta_err_x = delta_x
 	local delta_err_y = delta_y
 	local delta_err_z = delta_z
+
+	local x = x0
 	local y = y0
 	local z = z0
-	for x = x0, x1, sign_x do
+
+	for w = w0, w1, sign_w do
 		print(x, y, z)
+
+		err_x = err_x + delta_err_x
 		err_y = err_y + delta_err_y
 		err_z = err_z + delta_err_z
-		if err_y + err_y >= delta_x then
-			y = y + sign_y
-			err_y = err_y - delta_x
+
+		if err_x + err_x >= delta_w then
+			x = x + sign_x
+			err_x = err_x - delta_w
 		end
-		if err_z + err_z >= delta_x then
+
+		if err_y + err_y >= delta_w then
+			y = y + sign_y
+			err_y = err_y - delta_w
+		end
+
+		if err_z + err_z >= delta_w then
 			z = z + sign_z
-			err_z = err_z - delta_x
+			err_z = err_z - delta_w
 		end
 	end
 end
