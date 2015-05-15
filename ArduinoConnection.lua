@@ -1,3 +1,5 @@
+require "utils"
+
 ArduinoConnection = {}
 ArduinoConnection.__index = ArduinoConnection
 
@@ -12,12 +14,36 @@ function ArduinoConnection.create()
 end
 
 function ArduinoConnection:init()
-	-- self.port = assert(io.open("out.txt", "w"))
-	-- self.port:write("\n\n")
-	-- self.port:flush()
+	self:divide(10, -2, 10, 0, 92, 90)
+end
 
-	-- self.port:flush()
-	-- self.port:close()
+-- |x1 - x0| наибольший, 
+function ArduinoConnection:divide(x0, x1, y0, y1, z0, z1)
+	local delta_x = math.abs(x1 - x0)
+	local delta_y = math.abs(y1 - y0)
+	local delta_z = math.abs(z1 - z0)
+	local sign_x = utils.math.sign(x1 - x0)
+	local sign_y = utils.math.sign(y1 - y0)
+	local sign_z = utils.math.sign(z1 - z0)
+	local err_y = 0
+	local err_z = 0
+	local delta_err_y = delta_y
+	local delta_err_z = delta_z
+	local y = y0
+	local z = z0
+	for x = x0, x1, sign_x do
+		print(x, y, z)
+		err_y = err_y + delta_err_y
+		err_z = err_z + delta_err_z
+		if err_y + err_y >= delta_x then
+			y = y + sign_y
+			err_y = err_y - delta_x
+		end
+		if err_z + err_z >= delta_x then
+			z = z + sign_z
+			err_z = err_z - delta_x
+		end
+	end
 end
 
 function ArduinoConnection:powerOn()
@@ -37,11 +63,14 @@ function ArduinoConnection:getAnglesString()
 
 	for i=1,3 do
 		a[i] = math.floor(a[i]*180/math.pi)
-		-- if a[i]<0 then a[i]=0 end
-		-- if a[i]>0 then a[i]=120 end
 	end
 
 	self:normalizeAngles(a)
+
+	for i=1,3 do
+		if a[i]<0 then a[i]=0 end
+		if a[i]>180 then a[i]=180 end
+	end
 
 	if self.pen then
 		return "A" .. a[1] .. " B" .. a[2] .. " C" .. a[3] .. " Z90"
