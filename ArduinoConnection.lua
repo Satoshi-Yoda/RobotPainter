@@ -9,6 +9,7 @@ function ArduinoConnection.create()
 
 	new.port = nil
 	new.pen = false
+	new.accuracyMultipler = 10
 
 	return new
 end
@@ -126,14 +127,16 @@ function ArduinoConnection:getAnglesString()
 	a[3] = global.third.a
 
 	for i=1,3 do
-		a[i] = math.floor(a[i]*180/math.pi)
+		a[i] = math.floor(self.accuracyMultipler * a[i] * 180 / math.pi)
+		--a[i] = math.floor(a[i] * 180 / math.pi)
 	end
 
 	self:normalizeAngles(a)
 
 	for i=1,3 do
-		if a[i]<0 then a[i]=0 end
-		if a[i]>180 then a[i]=180 end
+		if a[i] < 0 then a[i] = 0 end
+		if a[i] > self.accuracyMultipler * 180 then a[i] = self.accuracyMultipler * 180 end
+		--if a[i] > 180 then a[i] = 180 end
 	end
 
 	if self.pen then
@@ -148,9 +151,9 @@ function ArduinoConnection:normalizeAngles(a)
     local b_zero = 27
     local c_zero = 154
 
-    a[1] = a_zero - a[1]
-    a[2] = b_zero + a[2]
-    a[3] = c_zero - a[3]
+    a[1] = self.accuracyMultipler * a_zero - a[1]
+    a[2] = self.accuracyMultipler * b_zero + a[2]
+    a[3] = self.accuracyMultipler * c_zero - a[3]
 end
 
 function ArduinoConnection:setAngles()

@@ -10,9 +10,9 @@ Converter.MAX_ANGLE_0 = math.pi / 3
 Converter.MIN_ANGLE_0 = -math.pi / 4
 
 Converter.ELEMENT_0_LENGTH = 128
-Converter.ELEMENT_1_LENGTH = 218
-Converter.ELEMENT_2_LENGTH = 223
-Converter.ELEMENT_3_LENGTH = 340
+Converter.ELEMENT_1_LENGTH = 226 --218
+Converter.ELEMENT_2_LENGTH = 215 --223
+Converter.ELEMENT_3_LENGTH = 342 --340
 
 function Converter.create()
 	local new = {}
