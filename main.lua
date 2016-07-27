@@ -50,7 +50,7 @@ function love.update(dt)
 	love.window.setTitle(global.arduinoConnection:getAnglesString())
 	global.arduinoConnection:setAngles()
 
-	if love.mouse.isDown("l") then
+	if love.mouse.isDown(1) then
 		local point = Point.create(global.marker.x, global.marker.y)
 		table.insert(global.area, point)
 
